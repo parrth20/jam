@@ -6,6 +6,10 @@ const meta: Meta<typeof LoginCard> = {
   title: 'Page/Login/LoginCard',
   component: LoginCard,
   tags: ['autodocs'],
+  args: {
+    enableOnboardingDialog: false,
+    onReloadClick: async () => alert('Reload clicked!'),
+  },
 }
 export default meta
 
