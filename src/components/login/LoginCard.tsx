@@ -16,6 +16,7 @@ import { OnboardingDialog } from './OnboardingDialog'
 type LoginFormProps = ComponentProps<typeof LoginForm>
 type LoginCardProps = Omit<LoginFormProps, 'loading' | 'onSubmit'> &
   Required<Pick<LoginFormProps, 'onSubmit'>> & {
+    enableOnboardingDialog?: boolean
     isSubmitting: boolean
     listWalletsFetching: boolean
     listWalletsLoading: boolean
@@ -39,6 +40,7 @@ const getInitialOnboardingDialogState = () => {
 }
 
 export const LoginCard = ({
+  enableOnboardingDialog = true,
   wallets,
   activeWallet,
   makerRunning,
@@ -94,9 +96,11 @@ export const LoginCard = ({
           ) : wallets && wallets.length > 0 ? (
             <CardDescription>{/*TODO: i18n */}Select a wallet and enter your password to continue.</CardDescription>
           ) : undefined}
-          <Button variant="link" size="sm" className="h-auto px-0" onClick={() => setShowOnboarding(true)}>
-            {t('onboarding.splashscreen_button_get_started')}
-          </Button>
+          {enableOnboardingDialog && (
+            <Button variant="link" size="sm" className="h-auto px-0" onClick={() => setShowOnboarding(true)}>
+              {t('onboarding.splashscreen_button_get_started')}
+            </Button>
+          )}
         </CardHeader>
 
         <CardContent className="space-y-6">
@@ -162,7 +166,7 @@ export const LoginCard = ({
         </CardContent>
       </Card>
 
-      <OnboardingDialog open={showOnboarding} onOpenChange={onOnboardingOpenChange} />
+      {enableOnboardingDialog && <OnboardingDialog open={showOnboarding} onOpenChange={onOnboardingOpenChange} />}
     </>
   )
 }
